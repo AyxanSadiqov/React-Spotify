@@ -15,45 +15,58 @@ const scrollContainer = (id: any, { isNegative }: any = {}) => {
   };
 }
 
+function dataLength({data, id} : any) {
+  return data[id].items.length
+}
+
 interface IDiscoverBlockProps {
   text: any;
   id: any;
   data: any;
-  imagesKey: any;
 }
 
 export default class DiscoverBlock extends React.Component<IDiscoverBlockProps> {
-  static defaultProps = {
-    imagesKey: "images"
-  }
   render = () => {
-    const { text, id, data, imagesKey } = this.props;
+    const { text, id, data } = this.props;
+
     return (
-      <div className="discover-block">
-        <div className="discover-block__header">
-          <h2>{text}</h2>
-          <span />
+      // her api sonucundan donen key "id"-ye atandi. dinamik olarak kontroller bu degisken ile saglandi
+      data[id] !== undefined ? (
+        <div className="discover-block">
+          <div className="discover-block__header">
+            <h2>{text} ({dataLength({data, id})})</h2>
+            <span />
+            {
+              {dataLength} ? (
+                <div className="animate__animated animate__fadeIn">
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    onClick={scrollContainer(id, { isNegative: true })}
+                  />
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    onClick={scrollContainer(id)}
+                  />
+                </div>
+              ) : null
+            }
+          </div>
           {
-            data.length ? (
-              <div className="animate__animated animate__fadeIn">
-                <FontAwesomeIcon
-                  icon={faChevronLeft}
-                  onClick={scrollContainer(id, { isNegative: true })}
-                />
-                <FontAwesomeIcon
-                  icon={faChevronRight}
-                  onClick={scrollContainer(id)}
-                />
+            id !== 'categories' ? (
+              <div className="discover-block__row" id={id}>
+                {data[id].items.map(({ id, images, name }: any) => (
+                  <DiscoverItem key={id} images={images} name={name} />
+                ))}
               </div>
-            ) : null
+            ) : // "Get Several Browse Categories" api-sinden "images" yerine "icons" key-i geldigi icin bu kosul eklendi. map sirasinda "image" yerine "icon" gonderiliyor
+              <div className="discover-block__row" id={id}>
+                {data[id].items.map(({ id, icons, name }: any) => (
+                  <DiscoverItem key={id} images={icons} name={name} />
+                ))}
+              </div>
           }
         </div>
-        <div className="discover-block__row" id={id}>
-          {data.map(({ [imagesKey]: images, name }: any) => (
-            <DiscoverItem key={name} images={images} name={name} />
-          ))}
-        </div>
-      </div>
+      ) : ''
     );
   }
 }

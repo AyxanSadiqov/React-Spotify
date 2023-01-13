@@ -44,3 +44,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Must Read Before Starting The Project
+
+When the project is first run, it redirects to "spotify authorize" if the token has expired. After confirming you will be redirected to the project homepage with valid token. After the valid token is obtained, the necessary APIs will be run and listed on the screen.

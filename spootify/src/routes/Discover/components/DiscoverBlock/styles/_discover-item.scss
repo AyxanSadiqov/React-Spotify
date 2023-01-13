@@ -11,7 +11,8 @@
     margin-right: 0 !important;
   }
 
-  &:hover &__art {
+  &:hover &__art,
+  &:hover &__no-image {
     transform: scale(1.05);
   }
 
@@ -27,5 +28,19 @@
   &__title {
     font-size: 15px;
     text-align: center;
+  }
+
+  &__no-image {
+    height: 150px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(220, 220, 220);
+    border-radius: 6px;
+    background-color: rgb(237, 237, 237);
+    background-size: cover;
+    transition: transform 0.15s ease-in-out;
+    cursor: pointer;
   }
 }
